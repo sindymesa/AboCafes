@@ -1,0 +1,64 @@
+﻿@model AboCafes.Common.Entities.Hectarea
+
+<h4>Hectarea</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="AddHectarea">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="IdLote" />
+
+            <div class="form-group">
+                <label asp-for="Descripcion" class="control-label"></label>
+                <input asp-for="Descripcion" class="form-control" />
+                <span asp-validation-for="Descripcion" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Palos" class="control-label"></label>
+                <input asp-for="Palos" class="form-control" />
+                <span asp-validation-for="Palos" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Siembra" class="control-label"></label>
+                <input asp-for="Siembra" class="form-control" />
+                <span asp-validation-for="Siembra" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Arrobas" class="control-label"></label>
+                <input asp-for="Arrobas" class="form-control" />
+                <span asp-validation-for="Arrobas" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="CantidadKN" class="control-label"></label>
+                <input asp-for="CantidadKN" class="form-control" />
+                <span asp-validation-for="CantidadKN" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="CantidadKP" class="control-label"></label>
+                <input asp-for="CantidadKP" class="form-control" />
+                <span asp-validation-for="CantidadKP" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="CantidadKF" class="control-label"></label>
+                <input asp-for="CantidadKF" class="form-control" />
+                <span asp-validation-for="CantidadKF" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Menores" class="control-label"></label>
+                <input asp-for="Menores" class="form-control" />
+                <span asp-validation-for="Menores" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Ph" class="control-label"></label>
+                <input asp-for="Ph" class="form-control" />
+                <span asp-validation-for="Ph" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+                <a asp-action="DetailsLote" asp-route-id="@Model.IdLote" class="btn btn-success">Back to List</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+

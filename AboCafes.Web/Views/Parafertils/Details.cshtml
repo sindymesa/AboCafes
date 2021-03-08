@@ -1,0 +1,78 @@
+﻿@model AboCafes.Common.Entities.Parafertil
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Parafertil</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Detalle)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Detalle)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Meses)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Meses)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.PalosDesde)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.PalosDesde)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.PalosHasta)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.PalosHasta)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Phdesde)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Phdesde)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.PhHasta)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.PhHasta)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.CantidadKN)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.CantidadKN)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.CantidadKP)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.CantidadKP)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.CantidadKF)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.CantidadKF)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Menores)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Menores)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>

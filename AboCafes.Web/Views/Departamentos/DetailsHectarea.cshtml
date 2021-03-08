@@ -1,0 +1,66 @@
+﻿@model AboCafes.Common.Entities.Hectarea
+
+<div>
+    <h4>Hectarea</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Descripcion)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Descripcion)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Palos)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Palos)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Siembra)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Siembra)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Arrobas)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Arrobas)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.CantidadKN)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.CantidadKN)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.CantidadKP)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.CantidadKP)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.CantidadKF)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.CantidadKF)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Menores)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Menores)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Ph)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Ph)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>

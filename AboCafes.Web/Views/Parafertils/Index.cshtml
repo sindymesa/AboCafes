@@ -1,0 +1,89 @@
+﻿@model IEnumerable<AboCafes.Common.Entities.Parafertil>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Detalle)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Meses)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PalosDesde)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PalosHasta)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Phdesde)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PhHasta)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CantidadKN)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CantidadKP)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CantidadKF)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Menores)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Detalle)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Meses)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PalosDesde)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PalosHasta)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Phdesde)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PhHasta)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CantidadKN)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CantidadKP)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CantidadKF)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Menores)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
