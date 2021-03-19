@@ -14,11 +14,12 @@ namespace AboCafes.Common.Entities
 
         [MaxLength(50)]
         [Required]
+        [DisplayName("Nombre")]
         public string Name { get; set; }
 
         public ICollection<Hectarea> Hectareas { get; set; }
 
-        [DisplayName("Hectareas Number")]
+        [DisplayName("Número de Hectáreas")]
         public int HectareasNumber => Hectareas == null ? 0 : Hectareas.Count;
 
         [JsonIgnore]

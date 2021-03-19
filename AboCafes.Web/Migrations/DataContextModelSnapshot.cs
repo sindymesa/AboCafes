@@ -19,6 +19,25 @@ namespace AboCafes.Web.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+            modelBuilder.Entity("AboCafes.Common.Entities.Cafe", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Detalle")
+                        .IsRequired()
+                        .HasMaxLength(50);
+
+                    b.Property<string>("Variedad")
+                        .IsRequired()
+                        .HasMaxLength(50);
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Cafes");
+                });
+
             modelBuilder.Entity("AboCafes.Common.Entities.Ciudad", b =>
                 {
                     b.Property<int>("Id")
@@ -97,17 +116,13 @@ namespace AboCafes.Web.Migrations
                     b.Property<string>("Telefono")
                         .HasMaxLength(20);
 
-                    b.Property<string>("TerceroId")
-                        .IsRequired()
-                        .HasMaxLength(40);
-
-                    b.Property<int?>("TercerosId");
+                    b.Property<int>("TerceroId");
 
                     b.Property<int?>("VeredaId");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("TercerosId");
+                    b.HasIndex("TerceroId");
 
                     b.HasIndex("VeredaId");
 
@@ -120,7 +135,11 @@ namespace AboCafes.Web.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<int>("Altitud");
+
                     b.Property<int>("Arrobas");
+
+                    b.Property<int>("CafeId");
 
                     b.Property<int>("CantidadKF");
 
@@ -132,6 +151,8 @@ namespace AboCafes.Web.Migrations
                         .IsRequired()
                         .HasMaxLength(40);
 
+                    b.Property<int>("Distancia");
+
                     b.Property<int?>("LoteId");
 
                     b.Property<int>("Menores");
@@ -142,7 +163,11 @@ namespace AboCafes.Web.Migrations
 
                     b.Property<DateTime>("Siembra");
 
+                    b.Property<float>("Sombrio");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("CafeId");
 
                     b.HasIndex("LoteId");
 
@@ -481,18 +506,24 @@ namespace AboCafes.Web.Migrations
 
             modelBuilder.Entity("AboCafes.Common.Entities.Finca", b =>
                 {
-                    b.HasOne("AboCafes.Common.Entities.Tercero", "Terceros")
-                        .WithMany("Fincas")
-                        .HasForeignKey("TercerosId");
+                    b.HasOne("AboCafes.Common.Entities.Tercero", "Tercero")
+                        .WithMany()
+                        .HasForeignKey("TerceroId")
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("AboCafes.Common.Entities.Vereda")
-                        .WithMany("Finca")
+                        .WithMany("Fincas")
                         .HasForeignKey("VeredaId");
                 });
 
             modelBuilder.Entity("AboCafes.Common.Entities.Hectarea", b =>
                 {
-                    b.HasOne("AboCafes.Common.Entities.Lote", "Lote")
+                    b.HasOne("AboCafes.Common.Entities.Cafe", "Cafe")
+                        .WithMany("Hectareas")
+                        .HasForeignKey("CafeId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("AboCafes.Common.Entities.Lote")
                         .WithMany("Hectareas")
                         .HasForeignKey("LoteId");
                 });

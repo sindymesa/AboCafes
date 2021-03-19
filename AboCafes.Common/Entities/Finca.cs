@@ -14,21 +14,19 @@ namespace AboCafes.Common.Entities
 
         [MaxLength(50)]
         [Required]
+        [DisplayName("Nombre")]
         public string Name { get; set; }
 
-
-        [Required]
-        [StringLength(40)]
-        public string TerceroId { get; set; }
+        public int TerceroId { get; set; }
 
         [StringLength(40)]
         public string Email { get; set; }
 
         [StringLength(20)]
+        [DisplayName("Teléfono")]
         public string Telefono { get; set; }
 
-        public Tercero Terceros { get; set; }
-
+        public Tercero Tercero { get; set; }
 
         public ICollection<Lote> Lotes { get; set; }
 
@@ -39,9 +37,10 @@ namespace AboCafes.Common.Entities
         [NotMapped]
         public int IdVereda { get; set; }
 
-        [JsonIgnore]
-        [NotMapped]
-        public int IdTercero { get; set; }
+     
+       
+
+
     }
 
 }

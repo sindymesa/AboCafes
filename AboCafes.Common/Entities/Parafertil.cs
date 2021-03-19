@@ -22,10 +22,10 @@ namespace AboCafes.Common.Entities
         [Required]
         public int PalosHasta { get; set; }
 
-        [Required]
+        
         public int Phdesde { get; set; }
 
-        [Required]
+        
         public int PhHasta { get; set; }
 
         public int CantidadKN { get; set; }

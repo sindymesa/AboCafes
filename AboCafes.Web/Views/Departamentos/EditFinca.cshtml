@@ -1,5 +1,5 @@
 ﻿@model AboCafes.Common.Entities.Finca
-
+<h3>Editar</h3>
 <h4>Finca</h4>
 <hr />
 <div class="row">
@@ -14,8 +14,7 @@
             </div>
             <div class="form-group">
                 <label asp-for="TerceroId" class="control-label"></label>
-                <input asp-for="TerceroId" class="form-control" />
-                <span asp-validation-for="TerceroId" class="text-danger"></span>
+                <select asp-for="TerceroId" class="form-control" asp-items="ViewBag.TerceroId"></select>
             </div>
             <div class="form-group">
                 <label asp-for="Email" class="control-label"></label>
@@ -28,19 +27,12 @@
                 <span asp-validation-for="Telefono" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-default" />
+                <input type="submit" value="Guardar" class="btn btn-primary" />
+                <a asp-action="DetailsVereda" asp-route-id="@Model.IdVereda" class="btn btn-success">Regresar a la lista</a>
             </div>
-
-
-            <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
-                <a asp-action="DetailsVereda" asp-route-id="@Model.IdVereda" class="btn btn-success">Back to List</a>
-            </div>
-
-
-
         </form>
     </div>
 </div>
+
 
 

@@ -42,7 +42,7 @@ namespace AboCafes.Web.Controllers
                .Include(c => c.Ciudades)
                .ThenInclude(d => d.Corregimientos)
                .ThenInclude(f => f.Veredas)
-               .ThenInclude(v => v.Finca)
+               .ThenInclude(v => v.Fincas)
                .ThenInclude(t => t.Lotes)
                .ThenInclude(g => g.Hectareas)
                .FirstOrDefaultAsync(m => m.Id == id);
@@ -156,7 +156,7 @@ namespace AboCafes.Web.Controllers
                .Include(c => c.Ciudades)
                .ThenInclude(d => d.Corregimientos)
                .ThenInclude(f => f.Veredas)
-               .ThenInclude(v => v.Finca)
+               .ThenInclude(v => v.Fincas)
                .ThenInclude(t => t.Lotes)
                .ThenInclude(g => g.Hectareas)
 
@@ -653,7 +653,7 @@ namespace AboCafes.Web.Controllers
             }
 
             Vereda vereda = await _context.Veredas
-                .Include(f => f.Finca)
+                .Include(f => f.Fincas)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (vereda == null)
             {
@@ -678,7 +678,7 @@ namespace AboCafes.Web.Controllers
             }
 
             Vereda vereda = await _context.Veredas
-                .Include(f => f.Finca)
+                .Include(f => f.Fincas)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (vereda == null)
             {
@@ -693,10 +693,22 @@ namespace AboCafes.Web.Controllers
 
 
 
-        //* Fincas
+     
+
+
+
+
+
+
+
+
+
 
         public async Task<IActionResult> AddFinca(int? id)
         {
+            ViewData["TerceroId"] = new SelectList(_context.Terceros, "Id", "Nombre");
+           
+
             if (id == null)
             {
                 return NotFound();
@@ -719,7 +731,7 @@ namespace AboCafes.Web.Controllers
             if (ModelState.IsValid)
             {
                 Vereda vereda = await _context.Veredas
-                    .Include(f => f.Finca)
+                    .Include(g => g.Fincas)
                     .FirstOrDefaultAsync(d => d.Id == finca.IdVereda);
                 if (vereda == null)
                 {
@@ -729,7 +741,7 @@ namespace AboCafes.Web.Controllers
                 try
                 {
                     finca.Id = 0;
-                    vereda.Finca.Add(finca);
+                    vereda.Fincas.Add(finca);
                     _context.Update(vereda);
                     await _context.SaveChangesAsync();
                     return RedirectToAction($"{nameof(DetailsVereda)}/{vereda.Id}");
@@ -750,7 +762,10 @@ namespace AboCafes.Web.Controllers
                 {
                     ModelState.AddModelError(string.Empty, exception.Message);
                 }
+
+               
             }
+            ViewData["TerceroId"] = new SelectList(_context.Terceros, "Id", "Nombre", finca.TerceroId);
 
             return View(finca);
         }
@@ -760,10 +775,18 @@ namespace AboCafes.Web.Controllers
 
 
 
+        //* Fincas
+
+
+
+
+
 
 
         public async Task<IActionResult> EditFinca(int? id)
         {
+            ViewData["TerceroId"] = new SelectList(_context.Terceros, "Id", "Nombre");
+
             if (id == null)
             {
                 return NotFound();
@@ -775,14 +798,16 @@ namespace AboCafes.Web.Controllers
                 return NotFound();
             }
 
-            Vereda vereda = await _context.Veredas.FirstOrDefaultAsync(c => c.Finca.FirstOrDefault(d => d.Id == finca.Id) != null);
+            Vereda vereda = await _context.Veredas.FirstOrDefaultAsync(c => c.Fincas.FirstOrDefault(d => d.Id == finca.Id) != null);
             finca.IdVereda = vereda.Id;
             return View(finca);
+
+
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> EditFinca(Finca finca)
+        public async Task<IActionResult> EditFinca(int id, [Bind("Id,Name,TerceroId,Email,Telefono")]Finca finca)
         {
             if (ModelState.IsValid)
             {
@@ -809,6 +834,7 @@ namespace AboCafes.Web.Controllers
                     ModelState.AddModelError(string.Empty, exception.Message);
                 }
             }
+            ViewData["TerceroId"] = new SelectList(_context.Terceros, "Id", "Documento", finca.TerceroId);
             return View(finca);
         }
 
@@ -831,11 +857,14 @@ namespace AboCafes.Web.Controllers
                 return NotFound();
             }
 
-            Vereda vereda = await _context.Veredas.FirstOrDefaultAsync(d => d.Finca.FirstOrDefault(e => e.Id == finca.Id) != null);
+            Vereda vereda = await _context.Veredas.FirstOrDefaultAsync(d => d.Fincas.FirstOrDefault(e => e.Id == finca.Id) != null);
             _context.Fincas.Remove(finca);
             await _context.SaveChangesAsync();
             return RedirectToAction($"{nameof(DetailsVereda)}/{vereda.Id}");
         }
+
+
+
 
         public async Task<IActionResult> DetailsFinca(int? id)
         {
@@ -852,7 +881,7 @@ namespace AboCafes.Web.Controllers
                 return NotFound();
             }
 
-            Vereda vereda = await _context.Veredas.FirstOrDefaultAsync(c => c.Finca.FirstOrDefault(e => e.Id == finca.Id) != null);
+            Vereda vereda = await _context.Veredas.FirstOrDefaultAsync(c => c.Fincas.FirstOrDefault(e => e.Id == finca.Id) != null);
             finca.IdVereda = finca.Id;
             return View(finca);
         }
@@ -1069,8 +1098,13 @@ public async Task<IActionResult> DetailsLote(int? id)
 
 
 public async Task<IActionResult> AddHectarea(int? id)
+
+
 {
-    if (id == null)
+            ViewData["CafeId"] = new SelectList(_context.Cafes, "Id", "Variedad");
+         
+
+            if (id == null)
     {
         return NotFound();
     }
@@ -1088,11 +1122,16 @@ public async Task<IActionResult> AddHectarea(int? id)
 [HttpPost]
 [ValidateAntiForgeryToken]
 public async Task<IActionResult> AddHectarea(Hectarea hectarea)
-{
-    if (ModelState.IsValid)
+        {
+
+           
+
+            if (ModelState.IsValid)
     {
         Lote lote = await _context.Lotes
             .Include(f => f.Hectareas)
+          
+           
             .FirstOrDefaultAsync(d => d.Id == hectarea.IdLote);
         if (lote == null)
         {
@@ -1124,20 +1163,21 @@ public async Task<IActionResult> AddHectarea(Hectarea hectarea)
             ModelState.AddModelError(string.Empty, exception.Message);
         }
     }
-
-    return View(hectarea);
+            ViewData["CafeId"] = new SelectList(_context.Cafes, "Id", "Variedad", hectarea.CafeId);
+            return View(hectarea);
 }
 
+    
 
 
 
 
 
-
-
-public async Task<IActionResult> EditHectarea(int? id)
+        public async Task<IActionResult> EditHectarea(int? id)
 {
-    if (id == null)
+
+            ViewData["CafeId"] = new SelectList(_context.Cafes, "Id", "Variedad");
+            if (id == null)
     {
         return NotFound();
     }
@@ -1181,8 +1221,9 @@ public async Task<IActionResult> EditHectarea(Hectarea hectarea)
             ModelState.AddModelError(string.Empty, exception.Message);
         }
     }
-    return View(hectarea);
-}
+            ViewData["CafeId"] = new SelectList(_context.Cafes, "Id", "Variedad", hectarea.CafeId);
+            return View(hectarea);
+        }
 
 
 

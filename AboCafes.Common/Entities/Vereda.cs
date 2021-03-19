@@ -14,12 +14,13 @@ namespace AboCafes.Common.Entities
 
         [MaxLength(50)]
         [Required]
+        [DisplayName("Nombre")]
         public string Name { get; set; }
 
-        public ICollection<Finca> Finca { get; set; }
+        public ICollection<Finca> Fincas { get; set; }
 
-        [DisplayName("FincasNumber")]
-        public int FincasNumber => Finca == null ? 0 : Finca.Count;
+        [DisplayName("Número de Fincas")]
+        public int FincasNumber => Fincas == null ? 0 : Fincas.Count;
 
         [JsonIgnore]
         [NotMapped]

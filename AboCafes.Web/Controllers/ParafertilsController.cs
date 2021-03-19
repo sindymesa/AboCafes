@@ -7,9 +7,11 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using AboCafes.Common.Entities;
 using AboCafes.Web.Data;
+using Microsoft.AspNetCore.Authorization;
 
 namespace AboCafes.Web.Controllers
 {
+    [Authorize(Roles = "Admin")]
     public class ParafertilsController : Controller
     {
         private readonly DataContext _context;

@@ -25,6 +25,7 @@ namespace AboCafes.Web.Data
         public DbSet<Parafertil> Parafertils { get; set; }
         public DbSet<Producto> Productos { get; set; }
         public DbSet<Tercero> Terceros { get; set; }
+        public DbSet<Cafe> Cafes { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

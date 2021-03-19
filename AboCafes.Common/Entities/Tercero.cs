@@ -8,6 +8,8 @@ using System.Text;
 
 namespace AboCafes.Common.Entities
 {
+
+   
     public class Tercero
     {
         [Key]
@@ -37,11 +39,8 @@ namespace AboCafes.Common.Entities
 
         public Ciudad Ciudad { get; set; }
 
-        public ICollection<Finca> Fincas { get; set; }
+       
 
-        [JsonIgnore]
-        [NotMapped]
-        public int IdFinca { get; set; }
 
     }
 }

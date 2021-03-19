@@ -5,6 +5,25 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Migrations\20210310144621_Tercerofinca.cs" />
+    <Compile Remove="Migrations\20210310144621_Tercerofinca.Designer.cs" />
+    <Compile Remove="Migrations\20210314022747_Cafess.cs" />
+    <Compile Remove="Migrations\20210314022747_Cafess.Designer.cs" />
+    <Compile Remove="Migrations\20210315161239_Variedad.cs" />
+    <Compile Remove="Migrations\20210315161239_Variedad.Designer.cs" />
+    <Compile Remove="Migrations\20210315170603_Abocafes2.cs" />
+    <Compile Remove="Migrations\20210315170603_Abocafes2.Designer.cs" />
+    <Compile Remove="Migrations\20210315170818_ad.cs" />
+    <Compile Remove="Migrations\20210315170818_ad.Designer.cs" />
+    <Compile Remove="Migrations\20210316155811_Cafesvar.cs" />
+    <Compile Remove="Migrations\20210316155811_Cafesvar.Designer.cs" />
+    <Compile Remove="Migrations\20210316161344_Ulti.cs" />
+    <Compile Remove="Migrations\20210316161344_Ulti.Designer.cs" />
+    <Compile Remove="Migrations\20210319020005_Depa.cs" />
+    <Compile Remove="Migrations\20210319020005_Depa.Designer.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.App" />
     <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.1.2" PrivateAssets="All" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.1.10" />

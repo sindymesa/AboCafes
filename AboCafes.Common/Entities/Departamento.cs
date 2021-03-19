@@ -13,11 +13,12 @@ namespace AboCafes.Common.Entities
 
         [Required]
         [MaxLength(50, ErrorMessage = "El campo debe contener menos de 50 caracteres")]
+        [DisplayName("Nombre")]
         public String Name { get; set; }
 
         public ICollection<Ciudad> Ciudades { get; set; }
 
-        [DisplayName("Ciudades Number")]
+        [DisplayName("Número de Ciudades")]
         public int CiudadesNumber => Ciudades == null ? 0 : Ciudades.Count;
 
     }

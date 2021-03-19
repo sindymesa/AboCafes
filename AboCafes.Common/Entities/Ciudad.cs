@@ -15,11 +15,12 @@ namespace AboCafes.Common.Entities
 
         [Required]
         [MaxLength(50, ErrorMessage = "El campo debe contener menos de 50 caracteres")]
+        [DisplayName("Nombre")]
         public String Name { get; set; }
 
         public ICollection<Corregimiento> Corregimientos { get; set; }
 
-        [DisplayName("Corregimientos Number")]
+        [DisplayName("Número de corregimientos")]
         public int CorregimientosNumber => Corregimientos == null ? 0 : Corregimientos.Count;
 
         [JsonIgnore]
