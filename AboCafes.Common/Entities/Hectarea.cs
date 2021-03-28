@@ -53,8 +53,10 @@ namespace AboCafes.Common.Entities
         [NotMapped]
         public int IdLote { get; set; }
 
-        
-        
+
+        [JsonIgnore]
+        public Lote Lote { get; set; }
+
 
 
     }

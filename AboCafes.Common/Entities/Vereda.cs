@@ -25,6 +25,10 @@ namespace AboCafes.Common.Entities
         [JsonIgnore]
         [NotMapped]
         public int IdCorregimiento { get; set; }
+
+        [JsonIgnore]
+        public Corregimiento Corregimiento { get; set; }
+
     }
 
 }

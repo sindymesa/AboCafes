@@ -28,5 +28,8 @@ namespace AboCafes.Common.Entities
         public int IdDepartamento { get; set; }
 
 
+        [JsonIgnore]
+        public Departamento Departamento { get; set; }
+
     }
 }

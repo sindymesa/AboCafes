@@ -25,6 +25,13 @@ namespace AboCafes.Common.Entities
         [JsonIgnore]
         [NotMapped]
         public int IdCiudad { get; set; }
+
+
+        [JsonIgnore]
+        public Ciudad Ciudad { get; set; }
+
+
+
     }
 
 }

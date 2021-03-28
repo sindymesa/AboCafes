@@ -37,8 +37,10 @@ namespace AboCafes.Common.Entities
         [NotMapped]
         public int IdVereda { get; set; }
 
-     
-       
+
+        [JsonIgnore]
+        public Vereda Vereda { get; set; }
+
 
 
     }

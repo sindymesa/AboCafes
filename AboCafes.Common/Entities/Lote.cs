@@ -25,6 +25,10 @@ namespace AboCafes.Common.Entities
         [JsonIgnore]
         [NotMapped]
         public int IdFinca { get; set; }
+
+        [JsonIgnore]
+        public Finca  Finca { get; set; }
+
     }
 
 }

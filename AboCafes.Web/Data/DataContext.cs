@@ -32,22 +32,32 @@ namespace AboCafes.Web.Data
             base.OnModelCreating(modelBuilder);
 
 
-            modelBuilder.Entity<Departamento>()
-                .HasIndex(t => t.Name)
-                .IsUnique();
-
-            modelBuilder.Entity<Ciudad>()
-               .HasIndex(t => t.Name)
-               .IsUnique();
-
-            modelBuilder.Entity<Corregimiento>()
-               .HasIndex(t => t.Name)
-               .IsUnique();
 
             modelBuilder.Entity<Tercero>()
                .HasIndex(t => t.Documento)
                .IsUnique();
+
+
+
+            modelBuilder.Entity<Departamento>(dep =>
+            {
+                dep.HasIndex("Name").IsUnique();
+                dep.HasMany(c => c.Ciudades).WithOne(d => d.Departamento).OnDelete(DeleteBehavior.Cascade);
+            });
+
+            modelBuilder.Entity<Ciudad>(ciu =>
+            {
+                ciu.HasIndex("Name", "DepartamentoId").IsUnique();
+                ciu.HasOne(d => d.Departamento).WithMany(c => c.Ciudades).OnDelete(DeleteBehavior.Cascade);
+            });
+
+            modelBuilder.Entity<Corregimiento>(cor =>
+            {
+                cor.HasIndex("Name", "CiudadId").IsUnique();
+                cor.HasOne(c => c.Ciudad).WithMany(d => d.Corregimientos).OnDelete(DeleteBehavior.Cascade);
+            });
+
         }
-        
+
     }
 }

@@ -26,6 +26,6 @@ namespace AboCafes.Web.Helpers
 
         Task<SignInResult> ValidatePasswordAsync(User user, string password);
 
-    }
+  }
 
 }
