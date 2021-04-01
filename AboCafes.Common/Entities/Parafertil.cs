@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Text;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace AboCafes.Common.Entities
 {
@@ -22,10 +19,10 @@ namespace AboCafes.Common.Entities
         [Required]
         public int PalosHasta { get; set; }
 
-        
+
         public int Phdesde { get; set; }
 
-        
+
         public int PhHasta { get; set; }
 
         public int CantidadKN { get; set; }

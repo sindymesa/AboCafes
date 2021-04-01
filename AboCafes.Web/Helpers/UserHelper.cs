@@ -1,11 +1,9 @@
-﻿using AboCafes.Web.Data;
+﻿using AboCafes.Common.Enums;
+using AboCafes.Web.Data;
 using AboCafes.Web.Data.Entities;
 using AboCafes.Web.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace AboCafes.Web.Helpers
@@ -29,6 +27,33 @@ namespace AboCafes.Web.Helpers
         {
             return await _userManager.CreateAsync(user, password);
         }
+
+        public async Task<User> AddUserAsync(AddUserViewModel model, UserType userType)
+        {
+            User user = new User
+            {
+                Address = model.Address,
+                Document = model.Document,
+                Email = model.Username,
+                FirstName = model.FirstName,
+                LastName = model.LastName,
+                PhoneNumber = model.PhoneNumber,
+                Ciudad= await _context.Ciudades.FindAsync(model.CiudadId),
+                UserName = model.Username,
+                UserType = userType
+            };
+
+            IdentityResult result = await _userManager.CreateAsync(user, model.Password);
+            if (result != IdentityResult.Success)
+            {
+                return null;
+            }
+
+            User newUser = await GetUserAsync(model.Username);
+            await AddUserToRoleAsync(newUser, user.UserType.ToString());
+            return newUser;
+        }
+
 
         public async Task AddUserToRoleAsync(User user, string roleName)
         {
@@ -61,11 +86,11 @@ namespace AboCafes.Web.Helpers
 
         public async Task<SignInResult> LoginAsync(LoginViewModel model)
         {
-        return await _signInManager.PasswordSignInAsync(
-           model.Username,
-           model.Password,
-           model.RememberMe,
-         false);
+            return await _signInManager.PasswordSignInAsync(
+               model.Username,
+               model.Password,
+               model.RememberMe,
+             false);
 
         }
 

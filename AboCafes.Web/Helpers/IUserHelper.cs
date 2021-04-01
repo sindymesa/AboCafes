@@ -1,9 +1,7 @@
-﻿using AboCafes.Web.Data.Entities;
+﻿using AboCafes.Common.Enums;
+using AboCafes.Web.Data.Entities;
 using AboCafes.Web.Models;
 using Microsoft.AspNetCore.Identity;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace AboCafes.Web.Helpers
@@ -26,6 +24,10 @@ namespace AboCafes.Web.Helpers
 
         Task<SignInResult> ValidatePasswordAsync(User user, string password);
 
-  }
+        Task<User> AddUserAsync(AddUserViewModel model, UserType userType);
+
+
+
+    }
 
 }

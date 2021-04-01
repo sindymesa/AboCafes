@@ -1,12 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using AboCafes.Common.Entities;
+using AboCafes.Web.Data;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
-using AboCafes.Common.Entities;
-using AboCafes.Web.Data;
 
 namespace AboCafes.Web.Controllers
 {

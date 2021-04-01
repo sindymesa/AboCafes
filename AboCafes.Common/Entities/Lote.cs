@@ -1,10 +1,8 @@
 ﻿using Newtonsoft.Json;
-using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Text;
 
 namespace AboCafes.Common.Entities
 {
@@ -27,7 +25,7 @@ namespace AboCafes.Common.Entities
         public int IdFinca { get; set; }
 
         [JsonIgnore]
-        public Finca  Finca { get; set; }
+        public Finca Finca { get; set; }
 
     }
 

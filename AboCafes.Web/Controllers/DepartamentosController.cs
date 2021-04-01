@@ -1,13 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using AboCafes.Common.Entities;
+using AboCafes.Web.Data;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using AboCafes.Common.Entities;
-using AboCafes.Web.Data;
-using Microsoft.AspNetCore.Authorization;
+using System;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace AboCafes.Web.Controllers
 {
@@ -693,7 +692,7 @@ namespace AboCafes.Web.Controllers
 
 
 
-     
+
 
 
 
@@ -707,7 +706,7 @@ namespace AboCafes.Web.Controllers
         public async Task<IActionResult> AddFinca(int? id)
         {
             ViewData["TerceroId"] = new SelectList(_context.Terceros, "Id", "Nombre");
-           
+
 
             if (id == null)
             {
@@ -763,7 +762,7 @@ namespace AboCafes.Web.Controllers
                     ModelState.AddModelError(string.Empty, exception.Message);
                 }
 
-               
+
             }
             ViewData["TerceroId"] = new SelectList(_context.Terceros, "Id", "Nombre", finca.TerceroId);
 
@@ -807,7 +806,7 @@ namespace AboCafes.Web.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> EditFinca(int id, [Bind("Id,Name,TerceroId,Email,Telefono")]Finca finca)
+        public async Task<IActionResult> EditFinca(int id, [Bind("Id,Name,TerceroId,Email,Telefono")] Finca finca)
         {
             if (ModelState.IsValid)
             {
@@ -901,7 +900,7 @@ namespace AboCafes.Web.Controllers
 
 
         //*   Lotes
-        
+
 
 
         public async Task<IActionResult> AddLote(int? id)
@@ -909,318 +908,318 @@ namespace AboCafes.Web.Controllers
             if (id == null)
             {
                 return NotFound();
-    }
+            }
 
-    Finca finca = await _context.Fincas.FindAsync(id);
+            Finca finca = await _context.Fincas.FindAsync(id);
             if (finca == null)
             {
                 return NotFound();
-}
+            }
 
-Lote model = new Lote { IdFinca = finca.Id };
+            Lote model = new Lote { IdFinca = finca.Id };
             return View(model);
         }
 
         [HttpPost]
-[ValidateAntiForgeryToken]
-public async Task<IActionResult> AddLote(Lote lote)
-{
-    if (ModelState.IsValid)
-    {
-        Finca finca = await _context.Fincas
-            .Include(f => f.Lotes)
-            .FirstOrDefaultAsync(d => d.Id == lote.IdFinca);
-        if (finca == null)
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> AddLote(Lote lote)
         {
-            return NotFound();
+            if (ModelState.IsValid)
+            {
+                Finca finca = await _context.Fincas
+                    .Include(f => f.Lotes)
+                    .FirstOrDefaultAsync(d => d.Id == lote.IdFinca);
+                if (finca == null)
+                {
+                    return NotFound();
+                }
+
+                try
+                {
+                    lote.Id = 0;
+                    finca.Lotes.Add(lote);
+                    _context.Update(finca);
+                    await _context.SaveChangesAsync();
+                    return RedirectToAction($"{nameof(DetailsFinca)}/{finca.Id}");
+
+                }
+                catch (DbUpdateException dbUpdateException)
+                {
+                    if (dbUpdateException.InnerException.Message.Contains("duplicate"))
+                    {
+                        ModelState.AddModelError(string.Empty, "Hay un registro con el mismo nombre ");
+                    }
+                    else
+                    {
+                        ModelState.AddModelError(string.Empty, dbUpdateException.InnerException.Message);
+                    }
+                }
+                catch (Exception exception)
+                {
+                    ModelState.AddModelError(string.Empty, exception.Message);
+                }
+            }
+
+            return View(lote);
         }
 
-        try
+
+
+
+
+
+
+
+        public async Task<IActionResult> EditLote(int? id)
         {
-            lote.Id = 0;
-            finca.Lotes.Add(lote);
-            _context.Update(finca);
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            Lote lote = await _context.Lotes.FindAsync(id);
+            if (lote == null)
+            {
+                return NotFound();
+            }
+
+            Finca finca = await _context.Fincas.FirstOrDefaultAsync(c => c.Lotes.FirstOrDefault(d => d.Id == lote.Id) != null);
+            lote.IdFinca = finca.Id;
+            return View(lote);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> EditLote(Lote lote)
+        {
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    _context.Update(lote);
+                    await _context.SaveChangesAsync();
+                    return RedirectToAction($"{nameof(DetailsFinca)}/{lote.IdFinca}");
+
+                }
+                catch (DbUpdateException dbUpdateException)
+                {
+                    if (dbUpdateException.InnerException.Message.Contains("duplicate"))
+                    {
+                        ModelState.AddModelError(string.Empty, "Hay un registro con el mismo nombre.");
+                    }
+                    else
+                    {
+                        ModelState.AddModelError(string.Empty, dbUpdateException.InnerException.Message);
+                    }
+                }
+                catch (Exception exception)
+                {
+                    ModelState.AddModelError(string.Empty, exception.Message);
+                }
+            }
+            return View(lote);
+        }
+
+
+
+
+
+        public async Task<IActionResult> DeleteLote(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            Lote lote = await _context.Lotes
+                .Include(g => g.Hectareas)
+                .FirstOrDefaultAsync(m => m.Id == id);
+            if (lote == null)
+            {
+                return NotFound();
+            }
+
+            Finca finca = await _context.Fincas.FirstOrDefaultAsync(d => d.Lotes.FirstOrDefault(e => e.Id == lote.Id) != null);
+            _context.Lotes.Remove(lote);
             await _context.SaveChangesAsync();
             return RedirectToAction($"{nameof(DetailsFinca)}/{finca.Id}");
-
         }
-        catch (DbUpdateException dbUpdateException)
+
+
+
+
+
+        public async Task<IActionResult> DetailsLote(int? id)
         {
-            if (dbUpdateException.InnerException.Message.Contains("duplicate"))
+            if (id == null)
             {
-                ModelState.AddModelError(string.Empty, "Hay un registro con el mismo nombre ");
+                return NotFound();
             }
-            else
+
+            Lote lote = await _context.Lotes
+                .Include(g => g.Hectareas)
+                .FirstOrDefaultAsync(m => m.Id == id);
+            if (lote == null)
             {
-                ModelState.AddModelError(string.Empty, dbUpdateException.InnerException.Message);
+                return NotFound();
             }
+
+            Finca finca = await _context.Fincas.FirstOrDefaultAsync(c => c.Lotes.FirstOrDefault(e => e.Id == lote.Id) != null);
+            lote.IdFinca = lote.Id;
+            return View(lote);
         }
-        catch (Exception exception)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        public async Task<IActionResult> AddHectarea(int? id)
+
+
         {
-            ModelState.AddModelError(string.Empty, exception.Message);
-        }
-    }
-
-    return View(lote);
-}
-
-
-
-
-
-
-
-
-public async Task<IActionResult> EditLote(int? id)
-{
-    if (id == null)
-    {
-        return NotFound();
-    }
-
-    Lote lote = await _context.Lotes.FindAsync(id);
-    if (lote == null)
-    {
-        return NotFound();
-    }
-
-    Finca finca = await _context.Fincas.FirstOrDefaultAsync(c => c.Lotes.FirstOrDefault(d => d.Id == lote.Id) != null);
-    lote.IdFinca = finca.Id;
-    return View(lote);
-}
-
-[HttpPost]
-[ValidateAntiForgeryToken]
-public async Task<IActionResult> EditLote(Lote lote)
-{
-    if (ModelState.IsValid)
-    {
-        try
-        {
-            _context.Update(lote);
-            await _context.SaveChangesAsync();
-            return RedirectToAction($"{nameof(DetailsFinca)}/{lote.IdFinca}");
-
-        }
-        catch (DbUpdateException dbUpdateException)
-        {
-            if (dbUpdateException.InnerException.Message.Contains("duplicate"))
-            {
-                ModelState.AddModelError(string.Empty, "Hay un registro con el mismo nombre.");
-            }
-            else
-            {
-                ModelState.AddModelError(string.Empty, dbUpdateException.InnerException.Message);
-            }
-        }
-        catch (Exception exception)
-        {
-            ModelState.AddModelError(string.Empty, exception.Message);
-        }
-    }
-    return View(lote);
-}
-
-
-
-
-
-public async Task<IActionResult> DeleteLote(int? id)
-{
-    if (id == null)
-    {
-        return NotFound();
-    }
-
-    Lote lote = await _context.Lotes
-        .Include(g => g.Hectareas)
-        .FirstOrDefaultAsync(m => m.Id == id);
-    if (lote == null)
-    {
-        return NotFound();
-    }
-
-    Finca finca = await _context.Fincas.FirstOrDefaultAsync(d => d.Lotes.FirstOrDefault(e => e.Id == lote.Id) != null);
-    _context.Lotes.Remove(lote);
-    await _context.SaveChangesAsync();
-    return RedirectToAction($"{nameof(DetailsFinca)}/{finca.Id}");
-}
-
-
-
-
-
-public async Task<IActionResult> DetailsLote(int? id)
-{
-    if (id == null)
-    {
-        return NotFound();
-    }
-
-    Lote lote = await _context.Lotes
-        .Include(g => g.Hectareas)
-        .FirstOrDefaultAsync(m => m.Id == id);
-    if (lote == null)
-    {
-        return NotFound();
-    }
-
-    Finca finca = await _context.Fincas.FirstOrDefaultAsync(c => c.Lotes.FirstOrDefault(e => e.Id == lote.Id) != null);
-    lote.IdFinca = lote.Id;
-    return View(lote);
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-public async Task<IActionResult> AddHectarea(int? id)
-
-
-{
             ViewData["CafeId"] = new SelectList(_context.Cafes, "Id", "Variedad");
-         
+
 
             if (id == null)
-    {
-        return NotFound();
-    }
+            {
+                return NotFound();
+            }
 
-    Lote lote = await _context.Lotes.FindAsync(id);
-    if (lote == null)
-    {
-        return NotFound();
-    }
+            Lote lote = await _context.Lotes.FindAsync(id);
+            if (lote == null)
+            {
+                return NotFound();
+            }
 
-    Hectarea model = new Hectarea { IdLote = lote.Id };
-    return View(model);
-}
+            Hectarea model = new Hectarea { IdLote = lote.Id };
+            return View(model);
+        }
 
-[HttpPost]
-[ValidateAntiForgeryToken]
-public async Task<IActionResult> AddHectarea(Hectarea hectarea)
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> AddHectarea(Hectarea hectarea)
         {
 
-           
+
 
             if (ModelState.IsValid)
-    {
-        Lote lote = await _context.Lotes
-            .Include(f => f.Hectareas)
-          
-           
-            .FirstOrDefaultAsync(d => d.Id == hectarea.IdLote);
-        if (lote == null)
-        {
-            return NotFound();
-        }
-
-        try
-        {
-            hectarea.Id = 0;
-            lote.Hectareas.Add(hectarea);
-            _context.Update(lote);
-            await _context.SaveChangesAsync();
-            return RedirectToAction($"{nameof(DetailsLote)}/{lote.Id}");
-
-        }
-        catch (DbUpdateException dbUpdateException)
-        {
-            if (dbUpdateException.InnerException.Message.Contains("duplicate"))
             {
-                ModelState.AddModelError(string.Empty, "Hay un registro con el mismo nombre ");
+                Lote lote = await _context.Lotes
+                    .Include(f => f.Hectareas)
+
+
+                    .FirstOrDefaultAsync(d => d.Id == hectarea.IdLote);
+                if (lote == null)
+                {
+                    return NotFound();
+                }
+
+                try
+                {
+                    hectarea.Id = 0;
+                    lote.Hectareas.Add(hectarea);
+                    _context.Update(lote);
+                    await _context.SaveChangesAsync();
+                    return RedirectToAction($"{nameof(DetailsLote)}/{lote.Id}");
+
+                }
+                catch (DbUpdateException dbUpdateException)
+                {
+                    if (dbUpdateException.InnerException.Message.Contains("duplicate"))
+                    {
+                        ModelState.AddModelError(string.Empty, "Hay un registro con el mismo nombre ");
+                    }
+                    else
+                    {
+                        ModelState.AddModelError(string.Empty, dbUpdateException.InnerException.Message);
+                    }
+                }
+                catch (Exception exception)
+                {
+                    ModelState.AddModelError(string.Empty, exception.Message);
+                }
             }
-            else
-            {
-                ModelState.AddModelError(string.Empty, dbUpdateException.InnerException.Message);
-            }
-        }
-        catch (Exception exception)
-        {
-            ModelState.AddModelError(string.Empty, exception.Message);
-        }
-    }
             ViewData["CafeId"] = new SelectList(_context.Cafes, "Id", "Variedad", hectarea.CafeId);
             return View(hectarea);
-}
+        }
 
-    
+
 
 
 
 
 
         public async Task<IActionResult> EditHectarea(int? id)
-{
+        {
 
             ViewData["CafeId"] = new SelectList(_context.Cafes, "Id", "Variedad");
             if (id == null)
-    {
-        return NotFound();
-    }
+            {
+                return NotFound();
+            }
 
-    Hectarea hectarea = await _context.Hectareas.FindAsync(id);
-    if (hectarea == null)
-    {
-        return NotFound();
-    }
+            Hectarea hectarea = await _context.Hectareas.FindAsync(id);
+            if (hectarea == null)
+            {
+                return NotFound();
+            }
             Lote lote = await _context.Lotes.FirstOrDefaultAsync(c => c.Hectareas.FirstOrDefault(d => d.Id == hectarea.Id) != null);
             hectarea.IdLote = lote.Id;
             return View(hectarea);
         }
 
-[HttpPost]
-[ValidateAntiForgeryToken]
-public async Task<IActionResult> EditHectarea(Hectarea hectarea)
-{
-    if (ModelState.IsValid)
-    {
-        try
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> EditHectarea(Hectarea hectarea)
         {
-            _context.Update(hectarea);
-            await _context.SaveChangesAsync();
-            return RedirectToAction($"{nameof(DetailsLote)}/{hectarea.IdLote}");
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    _context.Update(hectarea);
+                    await _context.SaveChangesAsync();
+                    return RedirectToAction($"{nameof(DetailsLote)}/{hectarea.IdLote}");
 
-        }
-        catch (DbUpdateException dbUpdateException)
-        {
-            if (dbUpdateException.InnerException.Message.Contains("duplicate"))
-            {
-                ModelState.AddModelError(string.Empty, "Hay un registro con el mismo nombre.");
+                }
+                catch (DbUpdateException dbUpdateException)
+                {
+                    if (dbUpdateException.InnerException.Message.Contains("duplicate"))
+                    {
+                        ModelState.AddModelError(string.Empty, "Hay un registro con el mismo nombre.");
+                    }
+                    else
+                    {
+                        ModelState.AddModelError(string.Empty, dbUpdateException.InnerException.Message);
+                    }
+                }
+                catch (Exception exception)
+                {
+                    ModelState.AddModelError(string.Empty, exception.Message);
+                }
             }
-            else
-            {
-                ModelState.AddModelError(string.Empty, dbUpdateException.InnerException.Message);
-            }
-        }
-        catch (Exception exception)
-        {
-            ModelState.AddModelError(string.Empty, exception.Message);
-        }
-    }
             ViewData["CafeId"] = new SelectList(_context.Cafes, "Id", "Variedad", hectarea.CafeId);
             return View(hectarea);
         }
@@ -1229,48 +1228,48 @@ public async Task<IActionResult> EditHectarea(Hectarea hectarea)
 
 
 
-public async Task<IActionResult> DeleteHectarea(int? id)
-{
-    if (id == null)
-    {
-        return NotFound();
-    }
+        public async Task<IActionResult> DeleteHectarea(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
 
-    Hectarea hectarea = await _context.Hectareas
-        .FirstOrDefaultAsync(m => m.Id == id);
-    if (hectarea == null)
-    {
-        return NotFound();
-    }
+            Hectarea hectarea = await _context.Hectareas
+                .FirstOrDefaultAsync(m => m.Id == id);
+            if (hectarea == null)
+            {
+                return NotFound();
+            }
 
-    Lote lote = await _context.Lotes.FirstOrDefaultAsync(d => d.Hectareas.FirstOrDefault(e => e.Id == hectarea.Id) != null);
-    _context.Hectareas.Remove(hectarea);
-    await _context.SaveChangesAsync();
-    return RedirectToAction($"{nameof(DetailsLote)}/{lote.Id}");
-}
-
-
+            Lote lote = await _context.Lotes.FirstOrDefaultAsync(d => d.Hectareas.FirstOrDefault(e => e.Id == hectarea.Id) != null);
+            _context.Hectareas.Remove(hectarea);
+            await _context.SaveChangesAsync();
+            return RedirectToAction($"{nameof(DetailsLote)}/{lote.Id}");
+        }
 
 
 
-public async Task<IActionResult> DetailsHectarea(int? id)
-{
-    if (id == null)
-    {
-        return NotFound();
-    }
 
-    Hectarea hectarea = await _context.Hectareas
-        .FirstOrDefaultAsync(m => m.Id == id);
-    if (hectarea == null)
-    {
-        return NotFound();
-    }
 
-    Lote lote = await _context.Lotes.FirstOrDefaultAsync(c => c.Hectareas.FirstOrDefault(e => e.Id == hectarea.Id) != null);
-    lote.IdFinca = lote.Id;
-    return View(hectarea);
-}
+        public async Task<IActionResult> DetailsHectarea(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            Hectarea hectarea = await _context.Hectareas
+                .FirstOrDefaultAsync(m => m.Id == id);
+            if (hectarea == null)
+            {
+                return NotFound();
+            }
+
+            Lote lote = await _context.Lotes.FirstOrDefaultAsync(c => c.Hectareas.FirstOrDefault(e => e.Id == hectarea.Id) != null);
+            lote.IdFinca = lote.Id;
+            return View(hectarea);
+        }
 
 
 

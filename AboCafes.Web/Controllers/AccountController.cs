@@ -1,8 +1,11 @@
-﻿using AboCafes.Web.Helpers;
+﻿using AboCafes.Common.Entities;
+using AboCafes.Common.Enums;
+using AboCafes.Web.Data;
+using AboCafes.Web.Data.Entities;
+using AboCafes.Web.Helpers;
 using AboCafes.Web.Models;
 using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
+using Microsoft.EntityFrameworkCore;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -11,10 +14,14 @@ namespace AboCafes.Web.Controllers
     public class AccountController : Controller
     {
         private readonly IUserHelper _userHelper;
+        private readonly DataContext _context;
+        private readonly ICombosHelper _combosHelper;
 
-        public AccountController(IUserHelper userHelper)
+        public AccountController(IUserHelper userHelper, DataContext context, ICombosHelper combosHelper)
         {
             _userHelper = userHelper;
+            _context = context;
+            _combosHelper = combosHelper;
         }
 
         public IActionResult Login()
@@ -43,7 +50,7 @@ namespace AboCafes.Web.Controllers
                     return RedirectToAction("Index", "Home");
                 }
 
-                ModelState.AddModelError(string.Empty, "Email or password incorrect.");
+                ModelState.AddModelError(string.Empty, "Email o contraseña incorrecto");
             }
 
             return View(model);
@@ -54,6 +61,18 @@ namespace AboCafes.Web.Controllers
             await _userHelper.LogoutAsync();
             return RedirectToAction("Index", "Home");
         }
+
+
+
+
+
+
+
+
+
     }
+
+
+
 
 }

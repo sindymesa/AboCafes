@@ -2,7 +2,6 @@
 using AboCafes.Common.Enums;
 using AboCafes.Web.Data.Entities;
 using AboCafes.Web.Helpers;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -20,27 +19,27 @@ namespace AboCafes.Web.Data
             _userHelper = userHelper;
         }
 
-    
 
 
-    public async Task SeedAsync()
-    {
-        await _context.Database.EnsureCreatedAsync();
-        await CheckDepartamentosAsync();
-        await CheckRolesAsync();
-        await CheckUserAsync("1023932253", "Sindy", "Mesa", "sindymesapo@gmail.com", "3015042069", "Calle 20 11b 60", UserType.Admin);
-        
+
+        public async Task SeedAsync()
+        {
+            await _context.Database.EnsureCreatedAsync();
+            await CheckDepartamentosAsync();
+            await CheckRolesAsync();
+            await CheckUserAsync("1023932253", "Sindy", "Mesa", "sindymesapo@gmail.com", "3015042069", "Calle 20 11b 60", UserType.Admin);
+
 
         }
 
-       private async Task<User> CheckUserAsync(
-       string document,
-       string firstName,
-       string lastName,
-       string email,
-       string phone,
-       string address,
-       UserType userType)
+        private async Task<User> CheckUserAsync(
+        string document,
+        string firstName,
+        string lastName,
+        string email,
+        string phone,
+        string address,
+        UserType userType)
         {
             User user = await _userHelper.GetUserAsync(email);
             if (user == null)
@@ -60,7 +59,7 @@ namespace AboCafes.Web.Data
 
                 await _userHelper.AddUserAsync(user, "123456");
                 await _userHelper.AddUserToRoleAsync(user, userType.ToString());
-               
+
             }
 
 
@@ -75,7 +74,7 @@ namespace AboCafes.Web.Data
 
 
 
-        
+
         private async Task CheckDepartamentosAsync()
         {
             if (!_context.Departamentos.Any())
@@ -154,20 +153,19 @@ namespace AboCafes.Web.Data
 
         }
 
-         private async Task CheckRolesAsync()
-                {
-                    await _userHelper.CheckRoleAsync(UserType.Admin.ToString());
-                    await _userHelper.CheckRoleAsync(UserType.User.ToString());
-                    await _context.SaveChangesAsync();
-            
+        private async Task CheckRolesAsync()
+        {
+            await _userHelper.CheckRoleAsync(UserType.Admin.ToString());
+            await _userHelper.CheckRoleAsync(UserType.User.ToString());
+            await _context.SaveChangesAsync();
+
         }
-        
+
 
 
 
     }
 
-        
-    }
 
-    
+}
+

@@ -1,9 +1,5 @@
 ﻿using AboCafes.Web.Data;
 using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace AboCafes.Web.Controllers.API
 {

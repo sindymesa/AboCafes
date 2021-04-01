@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Text;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace AboCafes.Common.Requests
 {
-   public class EmailRequest
+    public class EmailRequest
     {
         [EmailAddress]
         [Required]

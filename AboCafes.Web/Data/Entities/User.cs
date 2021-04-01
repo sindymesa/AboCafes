@@ -2,10 +2,7 @@
 using AboCafes.Common.Enums;
 using Microsoft.AspNetCore.Identity;
 using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace AboCafes.Web.Data.Entities
 {
@@ -28,15 +25,7 @@ namespace AboCafes.Web.Data.Entities
         [MaxLength(100)]
         public string Address { get; set; }
 
-        [Display(Name = "Image")]
-        public Guid ImageId { get; set; }
-
-        //TODO: Pending to put the correct paths
-        [Display(Name = "Image")]
-        public string ImageFullPath => ImageId == Guid.Empty
-            ? $"https://localhost:44311/images/noimage.png"
-            : $"https://onsale.blob.core.windows.net/users/{ImageId}";
-
+       
         [Display(Name = "User Type")]
         public UserType UserType { get; set; }
 
