@@ -1,0 +1,4 @@
+﻿> am start -a "android.intent.action.MAIN" -c "android.intent.category.LAUNCHER" -n "com.companyname.appname/crc64658231aadd382567.SplashActivity"
+> Starting: Intent { act=android.intent.action.MAIN cat=[android.intent.category.LAUNCHER] cmp=com.companyname.appname/crc64658231aadd382567.SplashActivity }
+[anyname.appnam] Not late-enabling -Xcheck:jni (already on)
+[anyname.appnam] Unexpected CPU variant for X86 using defaults: x86

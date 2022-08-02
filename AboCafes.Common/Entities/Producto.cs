@@ -13,6 +13,7 @@ namespace AboCafes.Common.Entities
         [StringLength(100)]
         public string Detalle { get; set; }
 
+
         public int CantidadKN { get; set; }
 
         public int CantidadKP { get; set; }
